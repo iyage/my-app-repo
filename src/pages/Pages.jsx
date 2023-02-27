@@ -1,10 +1,9 @@
-import React from 'react'
-import {  Link, Outlet } from 'react-router-dom'
+// import React, { useEffect } from 'react'
+import {  Link, Navigate, Outlet } from 'react-router-dom'
 import logo from '../images/SproxilR_Transparent.png'
 import styled from 'styled-components'
 import { FaHome } from 'react-icons/fa'
-import { IconButton } from '@material-ui/core'
-import { useA2HS } from "react-use-a2hs";
+import {  IconButton } from '@material-ui/core'
 
     const PagesContainer = styled.div`
     height: 93vh;
@@ -51,10 +50,6 @@ margin-bottom: 5px;
 const Img = styled.img`
   width: 120px;
 `
-
-function Pages() {
-    const [promptEvent, promptToInstall] = useA2HS();
-
     // const CopyRight = styled.p`
     //     font-size: 14px;
     //     letter-spacing: 1px;
@@ -65,19 +60,23 @@ function Pages() {
     //     width: 100%;
     //     justify-content: center;
     // `
-// const auth = localStorage.getItem('auth')
-  return  (
+
+
+function Pages() {
+
+
+
+const auth = localStorage.getItem('auth')
+
+  return auth? (
     <PagesContainer>
-                  {promptEvent && (
-        <button onClick={promptToInstall}>{"please install PWA"}</button>
-      )}
         <Header>
 <ImgContainer>
  <Img src={logo}/>
 </ImgContainer>
 </Header>
 <IconButton
-component={Link} to="/" 
+component={Link} to="/pages" 
 >
 <FaHome  />
 </IconButton>
@@ -91,8 +90,8 @@ component={Link} to="/"
       {/* 
      */}
     </PagesContainer>
-  )
+  ):<Navigate to={"/"}/>
 }
-// auth?
-// :<Navigate to={"/"}/>
+
+
 export default Pages

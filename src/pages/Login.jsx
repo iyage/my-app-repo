@@ -1,15 +1,16 @@
-import { Button, TextField } from '@material-ui/core'
+import {TextField } from '@material-ui/core'
 import React from 'react'
 import styled from 'styled-components'
 import { FaTelegram } from "react-icons/fa";
 import { useForm,Controller } from 'react-hook-form';
 import {useMutation} from 'react-query'
-// import image from '../assests/images/loginbg1.jpg'
 import logo from '../images/SproxilR_Transparent.png'
 // import { ScaleLoader } from 'react-spinners'
 // import { fail } from '../components/Notifications'
 import { userlogin } from '../apis/api';
 import { Navigate, useNavigate} from 'react-router-dom'
+import { StyleButtonPrimary } from '../components/buttons';
+import CryptoJS from 'crypto-js'
 
 
 const Container = styled.div`
@@ -134,11 +135,10 @@ const { mutate} = useMutation(
         localStorage.setItem('user-email',(data.data.data.email))
         localStorage.setItem('user-name',(data.data.data.companyName))
      auth = true;
-        // localStorage.setItem('user-type',(data.data.data.type))
-        // Encrypt
-// const key = CryptoJS.AES.encrypt(data.data.data.userKey, 'secret key 123').toString();
-// console.log(key)
-// localStorage.setItem('user-key',(key))
+        localStorage.setItem('user-type',(data.data.data.type))
+       // Encrypt
+const key = CryptoJS.AES.encrypt(data.data.data.userKey, 'secret key 123').toString();
+localStorage.setItem('user-key',(key))
        navigate('/pages',{replace:true} )
     },
     onError(error){
@@ -186,7 +186,7 @@ name='password'
   />
   {errors.password?.type==='required'&&<p> REquired</p>}
 </ForMControl>
-  <Button type='submit' variant='contained' fullWidth size='large' color='secondary' endIcon={<FaTelegram/>}>Login</Button>
+  <StyleButtonPrimary type='submit' variant='contained' fullWidth size='large' color='secondary' endIcon={<FaTelegram/>}>Login</StyleButtonPrimary>
    <CopyRight> Copyright &copy; {new Date().getFullYear()} Sproxil. All rights reserved.</CopyRight>
   </form>
         </FormWrapper>

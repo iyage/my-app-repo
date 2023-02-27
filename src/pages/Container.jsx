@@ -1,9 +1,7 @@
-import { Button } from '@material-ui/core'
-// import Button from '@mui/material-next/Button';
 import React from 'react'
 import { Link} from 'react-router-dom'
 import styled from 'styled-components'
-// import { StylesProvider } from "@material-ui/core/styles";
+import { StyleButtonPrimary } from '../components/buttons'
 import icon  from '../images/icon.png'
 const PagesContainer = styled.div`
     height: 100vh;
@@ -24,12 +22,6 @@ const ForMControl = styled.div`
     margin: 10px 0;
     position: relative;
     padding: 5px 0;
-`
-const StyleButton = styled(Button)`
-   height: 50px !important;
-   background-color: rgb(190, 2, 3) !important;
-   /* border-radius: px !important; */
-   width: 100%;
 `
 const Img = styled.img`
 width: 100%;
@@ -54,30 +46,27 @@ function Container() {
 
 <ButtonContainer>
   <ForMControl>
-  <StyleButton  variant='contained'
-  component={Link} to='/commission'
-  >Commission</StyleButton>
+  <StyleButtonPrimary variant='contained'
+  component={Link} to='/pages/commission'
+  >Commission</StyleButtonPrimary>
      <ImgContainer ><Img src={icon}/></ImgContainer>
   </ForMControl>
           <ForMControl>
-  <StyleButton  variant='contained'>Pack</StyleButton>
+  <StyleButtonPrimary variant='contained'>Pack</StyleButtonPrimary>
      <ImgContainer ><Img src={icon}/></ImgContainer>
   </ForMControl>
             <ForMControl>
-  <StyleButton  variant='contained'>Unpack</StyleButton>
+  <StyleButtonPrimary variant='contained'>Unpack</StyleButtonPrimary>
      <ImgContainer ><Img src={icon}/></ImgContainer>
   </ForMControl>
               <ForMControl>
-  <StyleButton  variant='contained'>Ship</StyleButton>
+  <StyleButtonPrimary variant='contained'>Ship</StyleButtonPrimary>
      <ImgContainer ><Img src={icon}/></ImgContainer>
   </ForMControl>
                 <ForMControl>
-  <StyleButton  variant='contained'>Receive</StyleButton>
+  <StyleButtonPrimary variant='contained'>Receive</StyleButtonPrimary>
      <ImgContainer ><Img src={icon}/></ImgContainer>
   </ForMControl>
-  
-
-
 </ButtonContainer>
     </PagesContainer>
   )

@@ -6,7 +6,7 @@ export const sp_api = axios.create({
     baseURL:process.env.REACT_APP_SP_BASE_URL
 })
 export const userlogin= async (data)=>{
-  const  response = await sp_api.post('http://localhost:3000/gs1/standard/user/login',data,{
+  const  response = await sp_api.post(' http://192.168.1.160:3000/gs1/standard/user/login',data,{
     headers:{
         "content-type":"application/json"
     }

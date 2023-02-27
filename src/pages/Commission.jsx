@@ -8,7 +8,7 @@ import beep from "../beep.wav"
 import { scanner, stopScanner } from '../apis/scanner';
 import { useState } from 'react';
 import Swal from "sweetalert2";
-
+import CryptoJS from 'crypto-js'
 
 const ScannerContainer = styled.div`
   display: flex;
@@ -27,13 +27,26 @@ const [scannedOutput,setScannedOutput] = useState("");
 const [scannerStatus,setScanStatus] = useState(false)
 const [scannedVals,setScannedVals]= useState([]);
 const [totalScanned,setTotalScanned] = useState(0)
+const key = localStorage.getItem("user-key");
+ const userKey = CryptoJS.AES.decrypt(key,'secret key 123').toString(CryptoJS.enc.Utf8);
    const showAlert = () => {
+
         Swal.fire({
             title: "Success",
             text: "Alert successful",
             icon: "success",
             confirmButtonText: "OK",
             confirmButtonColor:'red'
+          }).then((response)=>{
+            if(response.isConfirmed|| response.dismiss||response.isDenied)
+            {
+              showAlert()
+              stopScanner();
+              setTotalScanned(0)
+              setScannedVals([])
+              setScannedOutput("")
+               setScanStatus(false)
+            }
           });
     }
   return (
