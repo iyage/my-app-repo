@@ -101,7 +101,7 @@ function option()
 <NotificationContainer >
  <HelperText>Please grant the application permission to use location before proceeding.</HelperText>
  <br/>
-  <HelperText>If you need help in setting up permission ples=ase follow this link for <a href='#'>help 🚧</a></HelperText>
+  <HelperText>If you need help in setting up permission ples=ase follow this link for help 🚧</HelperText>
 
  <StyleButtonPrimary style={{ width: '100px', height:'40px',position:'absolute',bottom:'50px',left:'35%'}}
  onClick={()=>setGeoStatus(false)}
