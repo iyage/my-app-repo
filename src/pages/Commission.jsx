@@ -6,8 +6,9 @@ import { FaCamera, FaCloudUploadAlt, FaStopCircle } from 'react-icons/fa';
 import useSound from 'use-sound';
 import beep from "../beep.wav"
 import { scanner, stopScanner } from '../apis/scanner';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Swal from "sweetalert2";
+import { checkLocationStatus } from '../apis/hooks';
 // import CryptoJS from 'crypto-js'
 
 const ScannerContainer = styled.div`
@@ -21,7 +22,11 @@ const ScannerContainer = styled.div`
 const Container = styled.div`
   width: 98%;
 `
-function Commission() {
+function Commission({setGeoStatus,geoStatus}) {
+  useEffect(()=>{
+    checkLocationStatus(setGeoStatus)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[geoStatus])
 const [play] = useSound(beep);
 const [scannedOutput,setScannedOutput] = useState("");
 const [scannerStatus,setScanStatus] = useState(false)

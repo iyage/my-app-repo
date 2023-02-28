@@ -111,8 +111,8 @@ function option()
 
       <Route path={'/'} element={<Login/>}/>
       <Route path='/pages' element={<Pages/>}>
-        <Route index element={<Container/>}/>
-         <Route path='/pages/commission' element={<Commission/>} />
+        <Route index element={<Container setGeoStatus={setGeoStatus} geoStatus={geoStatus}/>}/>
+         <Route path='/pages/commission' element={<Commission setGeoStatus={setGeoStatus}/>} />
           <Route path="*" element={<NotFound/>}/>
       </Route>
      </Routes>
