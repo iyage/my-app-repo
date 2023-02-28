@@ -6,7 +6,7 @@ export const sp_api = axios.create({
     baseURL:process.env.REACT_APP_SP_BASE_URL
 })
 export const userlogin= async (data)=>{
-  const  response = await sp_api.post(' http://192.168.1.160:3000/gs1/standard/user/login',data,{
+  const  response = await sp_api.post('  https://f00kq67xz7.execute-api.us-east-1.amazonaws.com/dev/gs1/standard/user/login',data,{
     headers:{
         "content-type":"application/json"
     }
