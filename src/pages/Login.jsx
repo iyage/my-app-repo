@@ -1,16 +1,16 @@
 import {TextField } from '@material-ui/core'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { FaTelegram } from "react-icons/fa";
 import { useForm,Controller } from 'react-hook-form';
 import {useMutation} from 'react-query'
 import logo from '../images/SproxilR_Transparent.png'
-// import { ScaleLoader } from 'react-spinners'
-// import { fail } from '../components/Notifications'
+import { ScaleLoader } from 'react-spinners'
 import { userlogin } from '../apis/api';
 import { Navigate, useNavigate} from 'react-router-dom'
 import { StyleButtonPrimary } from '../components/buttons';
-import CryptoJS from 'crypto-js'
+import CryptoJS from 'crypto-js';
+import Swal from "sweetalert2";
 
 
 const Container = styled.div`
@@ -63,7 +63,7 @@ const FirstCircle = styled.div`
     width: 150px;
     border-radius: 50%;
     position: absolute;
-    background-color: rgb(221, 128, 127);
+    background-color: rgba(221, 128, 127,0.3);
     bottom: -50px;
     left: -50px;
     z-index: -1;
@@ -73,7 +73,7 @@ const Circle2= styled.div`
     width: 200px;
     border-radius: 50%;
     position: absolute;
-    background-color: rgb(221, 128, 127);
+    background-color: rgba(221, 128, 127,0.3);
     bottom: -50px;
     right: -50px;
     z-index: -1;
@@ -86,7 +86,7 @@ const Circle3= styled.div`
     width: 90px;
     border-radius: 50%;
     position: absolute;
-    background-color: rgb(221, 128, 127);
+    background-color: rgba(143, 143, 143,0.4);
     bottom: 22%;
     right: 25%;
     z-index: -1;
@@ -96,7 +96,7 @@ const Circle4 = styled.div`
     width: 200px;
     border-radius: 50%;
     position: absolute;
-    background-color: rgb(221, 128, 127);
+    background-color: rgba(221, 128, 127,0.3);
     top: -90px;
     left: -90px;
        z-index: -1;
@@ -111,9 +111,39 @@ const Circle4 = styled.div`
         bottom: 30px;
         font-weight: 200;
     `
+    const  GeoConatainer = styled.div`
+  position: absolute;
+  top: 0;
+  left:0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.3);
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: black !important;
+`
+
+const NotificationContainer = styled.div`
+  width:90%;
+  height: 300px;
+  background-color: white;
+  border:2px solid rgb(190, 2, 3);
+  border-radius: 10px;
+   box-shadow: 0px 0px 5px 0px rgba(190,2,3);
+   padding: 20px;
+   position: relative;
+   color: black !important;
+`
+const HelperText = styled.p`
+color: inherit;
+font-size: 18px;
+`
 
 function Login() {
-     let auth = localStorage.getItem('auth')!==null?localStorage.getItem('auth'):false
+  const [geoStatus,setGeoStatus] = useState(false)
+  let auth = localStorage.getItem('auth')!==null?localStorage.getItem('auth'):false
 const navigate = useNavigate();
 const {
   handleSubmit,
@@ -126,7 +156,7 @@ const {
  mutate(data)
 }
 
-const { mutate} = useMutation(
+const { mutate,isLoading} = useMutation(
   (variables) => userlogin(variables),
   {
     onSuccess(data, variables, context) {
@@ -142,16 +172,65 @@ localStorage.setItem('user-key',(key))
        navigate('/pages',{replace:true} )
     },
     onError(error){
-      alert(error)
-    //   fail(error.response.data.message)
-      console.log(error.response.data.message)
+      console.log(error)
+       if(error.code !== "ERR_NETWORK")
+      {
+        showAlert(error.response.data.message)
+      }
+      else  showAlert(error.message)
     },
   }
 )
 
+
+useEffect(()=>{
+if(navigator.geolocation){
+  console.log("supported");
+  navigator.geolocation.getCurrentPosition(success,fail,option)
+}
+else console.log("not supported")
+
+function success(position){
+ console.log(position)
+}
+
+function fail(error)
+{
+ console.log(error)
+ setGeoStatus(true)
+}
+function option()
+{
+
+}
+
+},[geoStatus])
+   const showAlert = (message) => {
+        Swal.fire({
+            title: "Error",
+            text: message,
+            icon: "error",
+            confirmButtonText: "OK",
+            confirmButtonColor:'red'
+          });
+    }
+
   return !auth? (
 
     <Container>
+                  {geoStatus&&
+      <GeoConatainer>
+<NotificationContainer >
+ <HelperText>Please grant the application permission to use location before proceeding.</HelperText>
+ <br/>
+  <HelperText>If you need help in setting up permission ples=ase follow this link for help 🚧</HelperText>
+
+ <StyleButtonPrimary style={{ width: '100px', height:'40px',position:'absolute',bottom:'50px',left:'35%'}}
+ onClick={()=>setGeoStatus(false)}
+ >OK</StyleButtonPrimary> 
+</NotificationContainer>
+      </GeoConatainer>
+      }
         <FormWrapper>
               <ImgContainer>
   <Img src={logo}/>
@@ -184,9 +263,9 @@ defaultValue=''
 rules={{required:true}}
 name='password'
   />
-  {errors.password?.type==='required'&&<p> REquired</p>}
+  {errors.password?.type==='required'&&<p> Required</p>}
 </ForMControl>
-  <StyleButtonPrimary type='submit' variant='contained' fullWidth size='large' color='secondary' endIcon={<FaTelegram/>}>Login</StyleButtonPrimary>
+  <StyleButtonPrimary type='submit' variant='contained' fullWidth size='large' color='secondary' endIcon={<FaTelegram/>}>{isLoading?<ScaleLoader  height={23} width={3} color='white'/>:<span>Login</span>}</StyleButtonPrimary>
    <CopyRight> Copyright &copy; {new Date().getFullYear()} Sproxil. All rights reserved.</CopyRight>
   </form>
         </FormWrapper>
