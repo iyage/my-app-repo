@@ -71,16 +71,15 @@ const auth = localStorage.getItem('auth')
   return auth? (
     <PagesContainer>
         <Header>
-<ImgContainer>
+<ImgContainer component={Link} >
  <Img src={logo}/>
-</ImgContainer>
-</Header>
-<IconButton
+ <IconButton
 component={Link} to="/pages" 
 >
 <FaHome  />
 </IconButton>
-
+</ImgContainer>
+</Header>
     <Outlet/>
       <Circle2/> 
       <Circle3/>

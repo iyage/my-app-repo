@@ -142,7 +142,7 @@ localStorage.setItem('user-key',(key))
        navigate('/pages',{replace:true} )
     },
     onError(error){
-      console.log(error)
+      alert(error)
     //   fail(error.response.data.message)
       console.log(error.response.data.message)
     },

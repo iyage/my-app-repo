@@ -77,13 +77,11 @@ if(navigator.geolocation){
 else console.log("not supported")
 
 function success(position){
-  alert(position)
  console.log(position)
 }
 
 function fail(error)
 {
-  alert(error)
  console.log(error)
  setGeoStatus(true)
 }
