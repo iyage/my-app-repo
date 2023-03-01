@@ -6,7 +6,7 @@ export const sp_api = axios.create({
     baseURL:process.env.REACT_APP_SP_BASE_URL
 })
 export const userlogin= async (data)=>{
-  const  response = await sp_api.post('  https://f00kq67xz7.execute-api.us-east-1.amazonaws.com/dev/gs1/standard/user/login',data,{
+  const  response = await sp_api.post('/user/login',data,{
     headers:{
         "content-type":"application/json"
     }
@@ -26,7 +26,7 @@ export const fetchAllClients = async ()=>{
     return await sp_api.get('/app/user/getAllClients')
 }
 export const fetchAllClientLocations  = async (key)=>{
-
+     console.log(process.env.REACT_APP_GS1_BASE_URL)
     return await gs1_api.get( `location/locations?userKeyForSP=${key}`,{
         headers:{
          'Authorization':  `Bearer ${process.env.REACT_APP_PARTNER_KEY}`
